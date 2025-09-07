@@ -1,5 +1,5 @@
-#include "PowerPC_EABI_Support/Runtime/MWCPlusLib.h"
-#include "PowerPC_EABI_Support/Runtime/NMWException.h"
+#include "runtime/MWCPlusLib.h"
+#include "runtime/NMWException.h"
 
 DestructorChain* __global_destructor_chain;
 
