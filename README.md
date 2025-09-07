@@ -18,7 +18,7 @@ See https://decomp.dev/api for an API overview.
 Replace with your Discord server's ID and invite URL.
 -->
 [Discord Badge]: https://img.shields.io/discord/727908905392275526?color=%237289DA&logo=discord&logoColor=%23FFFFFF
-[discord]: https://discord.gg/hKx3FJJgrV
+[discord]: https://discord.gg/DE9Hn7T
 
 A work-in-progress decompilation of Boom Street.
 
@@ -76,10 +76,10 @@ Building
 - Clone the repository:
 
   ```sh
-  git clone https://github.com/my/repo.git
+  git clone https://github.com/FortuneStreetModding/boom-street-decomp.git
   ```
 
-- Copy your game's disc image to `orig/GAMEID`.
+- Copy your game's disc image to `orig/ST7P01`.
   - Supported formats: ISO (GCM), RVZ, WIA, WBFS, CISO, NFS, GCZ, TGC
   - After the initial build, the disc image can be deleted to save space.
 
@@ -89,7 +89,7 @@ Building
   python configure.py
   ```
 
-  To use a version other than `GAMEID` (USA), specify it with `--version`.
+  To use a version other than `ST7P01` (EUR), specify it with `--version`.
 
 - Build:
 
