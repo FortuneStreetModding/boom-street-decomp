@@ -1,8 +1,10 @@
 #include <string.h>
 
-// seems to match the memcpy from the Xenoblade repo, but that one is asm
-// an attempt to convert it to C can be found here:
-// https://github.com/DarkRTA/rb3/blob/master/src/sdk/PowerPC_EABI_Support/Runtime/__mem.c
+// seems to match the memcpy from the Xenoblade repo,
+// but that one is asm: https://github.com/xbret/xenoblade/blob/main/libs/PowerPC_EABI_Support/src/Runtime/__mem.c
+
+// a WIP attempt to convert it to C can be found here:
+// https://decomp.me/scratch/R3nOu
 
 //Handwritten
 DECL_SECTION(".init") asm void* memcpy(void* dest, const void* src, size_t size){
