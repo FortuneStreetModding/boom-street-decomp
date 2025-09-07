@@ -1,0 +1,56 @@
+Sections:
+	.init       type:code align:4
+	extab       type:rodata align:8
+	extabindex  type:rodata align:4
+	.text       type:code align:4
+	.ctors      type:rodata align:8
+	.dtors      type:rodata align:16
+	.rodata     type:rodata align:64
+	.data       type:data align:32
+	.bss        type:bss align:128
+	.sdata      type:data align:4
+	.sbss       type:bss align:16
+	.sdata2     type:rodata align:32
+	.sbss2      type:bss align:16
+
+runtime/__mem.c:
+	.init       start:0x800043C4 end:0x80004744
+	.text       start:0x8030AE90 end:0x8030AEAC
+
+runtime/__va_arg.c:
+	.text       start:0x8030AEAC end:0x8030AF74
+
+runtime/global_destructor_chain.c:
+	.text       start:0x8030AF74 end:0x8030AF8C
+	.sbss       start:0x80818CD8 end:0x80818CDC
+
+runtime/runtime.c:
+	.text       start:0x8030B368 end:0x8030B3C4
+	.rodata     start:0x80443508 end:0x80443520
+
+runtime/__init_cpp_exceptions.cpp:
+	.text       start:0x8030BC28 end:0x8030BC98
+	.ctors      start:0x8040D980 end:0x8040D984 rename:.ctors$10
+	.dtors      start:0x8040DEC0 end:0x8040DEC4 rename:.dtors$10
+	.dtors      start:0x8040DEC4 end:0x8040DEC8 rename:.dtors$15
+	.sdata      start:0x808171A0 end:0x808171A8
+
+runtime/Gecko_ExceptionPPC.c:
+	.text       start:0x8030BC98 end:0x8030BD0C
+	.bss        start:0x8079E280 end:0x8079E400
+
+runtime/GCN_mem_alloc.c:
+	.text       start:0x8030BDC4 end:0x8030BE7C
+	.rodata     start:0x80443520 end:0x80443590
+
+nw4r/ut/ut_list.cpp:
+	.text       start:0x803979C0 end:0x80397C20
+
+nw4r/ut/ut_LinkList.cpp:
+	.text       start:0x80397C20 end:0x80397D80
+
+nw4r/ut/ut_binaryFileFormat.cpp:
+	.text       start:0x80397DB0 end:0x80397E30
+
+nw4r/ut/ut_CharStrmReader.cpp:
+	.text       start:0x80397E30 end:0x80397F50

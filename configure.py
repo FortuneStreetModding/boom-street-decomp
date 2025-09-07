@@ -29,7 +29,7 @@ from tools.project import (
 # Game versions
 DEFAULT_VERSION = 0
 VERSIONS = [
-    "GAMEID",  # 0
+    "ST7P01",  # PAL / Boom Street
 ]
 
 parser = argparse.ArgumentParser()
@@ -199,7 +199,6 @@ cflags_base = [
     "-enum int",
     "-fp hardware",
     "-Cpp_exceptions off",
-    # "-W all",
     "-O4,p",
     "-inline auto",
     '-pragma "cats off"',
@@ -209,11 +208,13 @@ cflags_base = [
     "-RTTI off",
     "-fp_contract on",
     "-str reuse",
-    "-multibyte",  # For Wii compilers, replace with `-enc SJIS`
     "-i include",
+    "-ir include/MSL",
     f"-i build/{config.version}/include",
     f"-DBUILD_VERSION={version_num}",
     f"-DVERSION_{config.version}",
+    "-ir include/revolution/BTE",  # thanks broadcom...
+    "-DREVOLUTION",  # BTE changes
 ]
 
 # Debug flags
@@ -231,14 +232,105 @@ elif args.warn == "off":
 elif args.warn == "error":
     cflags_base.append("-W error")
 
+cflags_pedantic = [
+    "-w unused",
+    "-w missingreturn",
+    "-w hidevirtual",
+    "-w filecaps",
+    "-w sysfilecaps",
+    "-w tokenpasting",
+    "-w impl_float2int",
+    '-pragma "warn_no_explicit_virtual on"',
+    "-w err",
+]
+
 # Metrowerks library flags
 cflags_runtime = [
     *cflags_base,
     "-use_lmw_stmw on",
     "-str reuse,pool,readonly",
-    "-gccinc",
-    "-common off",
     "-inline auto",
+    "-func_align 4",
+]
+
+# MetroTRK flags
+cflags_trk = [
+    *cflags_base,
+    "-use_lmw_stmw on",
+    "-str reuse,pool,readonly",
+    "-inline deferred",
+    "-sdata 0",
+]
+
+# NW4R utility library flags
+cflags_libnw4r_ut = [
+    *cflags_base,
+    *cflags_pedantic,
+    "-enc SJIS",
+    "-fp_contract off",
+    "-ipa file",
+    "-ir include/nw4r",
+]
+
+# NW4R effect library flags
+cflags_libnw4r_ef = [
+    *cflags_base,
+    *cflags_pedantic,
+    "-enc SJIS",
+    "-fp_contract off",
+    "-ipa file",
+    "-ir include/nw4r",
+]
+
+# NW4R math library flags
+cflags_libnw4r_math = [
+    *cflags_base,
+    *cflags_pedantic,
+    "-enc SJIS",
+    "-fp_contract off",
+    "-ipa file",
+    "-ir include/nw4r",
+]
+
+# NW4R sound library flags
+cflags_libnw4r_snd = [
+    *cflags_base,
+    *cflags_pedantic,
+    "-enc SJIS",
+    "-fp_contract off",
+    "-ipa file",
+    "-ir include/nw4r",
+]
+
+# NW4R 3D graphics library flags
+cflags_libnw4r_g3d = [
+    *cflags_base,
+    *cflags_pedantic,
+    "-enc SJIS",
+    "-fp_contract off",
+    "-ipa file",
+    "-ir include/nw4r",
+]
+
+# NW4R layout library flags
+cflags_libnw4r_lyt = [
+    *cflags_base,
+    *cflags_pedantic,
+    "-enc SJIS",
+    "-fp_contract off",
+    "-ipa file",
+    "-ir include/nw4r",
+]
+
+# NW4R RFL extension flags
+cflags_libnw4r_g3d_scnrfl = [
+    *cflags_base,
+    *cflags_pedantic,
+    "-enc SJIS",
+    "-fp_contract on",
+    "-use_lmw_stmw on",
+    "-inline deferred",
+    "-ir include/nw4r",
 ]
 
 # REL flags
@@ -248,7 +340,7 @@ cflags_rel = [
     "-sdata2 0",
 ]
 
-config.linker_version = "GC/1.3.2"
+config.linker_version = "Wii/1.7"
 
 
 # Helper function for Dolphin libraries
@@ -272,7 +364,6 @@ def Rel(lib_name: str, objects: List[Object]) -> Dict[str, Any]:
         "objects": objects,
     }
 
-
 Matching = True                   # Object matches and should be linked
 NonMatching = False               # Object does not match and should not be linked
 Equivalent = config.non_matching  # Object should be linked when configured with --non-matching
@@ -282,7 +373,6 @@ Equivalent = config.non_matching  # Object should be linked when configured with
 def MatchingFor(*versions):
     return config.version in versions
 
-
 config.warn_missing_config = True
 config.warn_missing_source = False
 config.libs = [
@@ -291,10 +381,44 @@ config.libs = [
         "mw_version": config.linker_version,
         "cflags": cflags_runtime,
         "progress_category": "sdk",  # str | List[str]
+        "src_dir": "lib",
         "objects": [
-            Object(NonMatching, "Runtime.PPCEABI.H/global_destructor_chain.c"),
-            Object(NonMatching, "Runtime.PPCEABI.H/__init_cpp_exceptions.cpp"),
+            Object(Matching, "runtime/global_destructor_chain.c"),
+            Object(Matching, "runtime/__init_cpp_exceptions.cpp"),
+            Object(Matching, "runtime/__mem.c"),
+            Object(Matching, "runtime/__va_arg.c"),
+            Object(NonMatching, "runtime/NMWException.c"),
+            Object(NonMatching, "runtime/ptmf.c"),
+            Object(Matching, "runtime/runtime.c"),
+            Object(NonMatching, "runtime/Gecko_ExceptionPPC.c"),
+            Object(NonMatching, "runtime/GCN_mem_alloc.c"),
         ],
+    },
+    {
+        "lib": "libnw4r_ut",
+        "mw_version": config.linker_version,
+        "cflags": cflags_libnw4r_ut,
+        "progress_category": "nw4r",
+        "src_dir": "lib",
+        "objects": [
+            Object(NonMatching, "nw4r/ut/ut_list.cpp"),
+            Object(NonMatching, "nw4r/ut/ut_LinkList.cpp"),
+            Object(NonMatching, "nw4r/ut/ut_binaryFileFormat.cpp"),
+            Object(NonMatching, "nw4r/ut/ut_CharStrmReader.cpp"),
+            Object(NonMatching, "nw4r/ut/ut_TagProcessorBase.cpp"),
+            Object(NonMatching, "nw4r/ut/ut_IOStream.cpp"),
+            Object(NonMatching, "nw4r/ut/ut_FileStream.cpp"),
+            Object(NonMatching, "nw4r/ut/ut_DvdFileStream.cpp"),
+            Object(NonMatching, "nw4r/ut/ut_DvdLockedFileStream.cpp"),
+            Object(NonMatching, "nw4r/ut/ut_NandFileStream.cpp"),
+            Object(NonMatching, "nw4r/ut/ut_LockedCache.cpp"),
+            Object(NonMatching, "nw4r/ut/ut_Font.cpp"),
+            Object(NonMatching, "nw4r/ut/ut_RomFont.cpp"),
+            Object(NonMatching, "nw4r/ut/ut_ResFontBase.cpp"),
+            Object(NonMatching, "nw4r/ut/ut_ResFont.cpp"),
+            Object(NonMatching, "nw4r/ut/ut_CharWriter.cpp"),
+            Object(NonMatching, "nw4r/ut/ut_TextWriterBase.cpp"),
+        ]
     },
 ]
 
@@ -321,6 +445,7 @@ def link_order_callback(module_id: int, objects: List[str]) -> List[str]:
 config.progress_categories = [
     ProgressCategory("game", "Game Code"),
     ProgressCategory("sdk", "SDK Code"),
+    ProgressCategory("nw4r", "NW4R"),
 ]
 config.progress_each_module = args.verbose
 # Optional extra arguments to `objdiff-cli report generate`
