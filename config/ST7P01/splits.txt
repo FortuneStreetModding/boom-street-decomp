@@ -43,6 +43,49 @@ runtime/GCN_mem_alloc.c:
 	.text       start:0x8030BDC4 end:0x8030BE7C
 	.rodata     start:0x80443520 end:0x80443590
 
+nw4r/ef/ef_draworder.cpp:
+	.text       start:0x8031CC20 end:0x8031CD40
+	.data       start:0x804A1330 end:0x804A1348
+
+nw4r/ef/ef_effect.cpp:
+	.text       start:0x8031CD40 end:0x8031DB70
+	.data       start:0x804A1348 end:0x804A1368
+
+nw4r/ef/ef_effectsystem.cpp:
+	.text       start:0x8031DB70 end:0x8031E360
+
+nw4r/ef/ef_emitter.cpp:
+	.text       start:0x8031E520 end:0x80320800
+	.data       start:0x804A13B0 end:0x804A13D8
+
+nw4r/ef/ef_animcurve.cpp:
+	.text       start:0x80320800 end:0x80325070
+
+nw4r/ef/ef_particle.cpp:
+	.text       start:0x80328DA0 end:0x80329960
+	.data       start:0x804A15D8 end:0x804A15F0
+
+nw4r/ef/ef_particlemanager.cpp:
+	.text       start:0x80329BA0 end:0x8032BEB0
+	.bss        start:0x807D7380 end:0x807D73B0
+
+nw4r/ef/ef_resource.cpp:
+	.text       start:0x8032BEC0 end:0x8032CA30
+	.ctors      start:0x8040DE5C end:0x8040DE60
+	.bss        start:0x807D73B0 end:0x807D73D0
+
+nw4r/ef/ef_util.cpp:
+	.text       start:0x8032CA30 end:0x8032D350
+
+nw4r/ef/ef_handle.cpp:
+	.text       start:0x8032D9B0 end:0x8032DA40
+
+nw4r/ef/ef_emitterform.cpp:
+	.text       start:0x8032DA40 end:0x8032DFE0
+
+nw4r/ef/ef_creationqueue.cpp:
+	.text       start:0x8032DFE0 end:0x8032E430
+
 nw4r/ut/ut_list.cpp:
 	.text       start:0x803979C0 end:0x80397C20
 
